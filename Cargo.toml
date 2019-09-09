@@ -1,0 +1,9 @@
+[package]
+name = "kripton"
+version = "0.1.0"
+authors = ["yuliu2016 <22801773+yuliu2016@users.noreply.github.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
