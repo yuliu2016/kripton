@@ -23,7 +23,7 @@ Generate a list of prime numbers under a maximum:
 
     prime_list = def(max: int) -> list<int> {
         return (2:max).filter { p ->
-            not (2:sqrt(n)).any: q -> p % q == 0
+            not (2:sqrt(n)).any: |q| p % q == 0
         }
     }
 
@@ -36,7 +36,8 @@ Number Guessing Game:
     n = (1:100).rand_choice()
 
     while True {
-        guess = input("Enter your guess: ").int()
+        try: guess = input("Enter your guess: ").int()
+        except FormatError: continue
 
         when {
             guess < n -> print("Too Small")
@@ -46,3 +47,17 @@ Number Guessing Game:
     }
 
     print("Correct!!")
+
+Data Classes (and generic templates):
+
+.. code-block:: ruby
+
+    Rect = dataclass<T: number>(w: T, h: T)
+
+    Rect::area = def(self) {
+        return self.w * self.h
+    }
+
+    Rect::perim = def(self) {
+        return 2 * (self.w + self.h)
+    }
