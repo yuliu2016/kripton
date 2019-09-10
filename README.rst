@@ -17,11 +17,11 @@ Features and Design Principles:
 Code Examples
 =============
 
-Generate a list of prime numbers under a maximum:
+Generate a sequence of prime numbers under a maximum:
 
 .. code-block:: ruby
 
-    prime_list = def(max: int) -> list<int> {
+    prime_sequence = def(max: int) -> sequence<int> {
         return (2:max).filter { p ->
             not (2:sqrt(n)).any: |q| p % q == 0
         }
@@ -61,3 +61,16 @@ Data Classes (and generic templates):
     Rect::perim = def(self) {
         return 2 * (self.w + self.h)
     }
+
+Data structures:
+
+.. code-block:: python
+
+    numbers = [1,2,3]
+    fruit_to_colour = {
+        "apple": "red",
+        "banana": "yellow",
+        "orange": "orange"
+    }
+    array_number = arange(1:100:2)
+    equal_array = linspace(1:40, 13)
