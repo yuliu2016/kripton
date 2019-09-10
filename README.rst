@@ -3,16 +3,9 @@ Kripton Programming Language
 ============================
 
 Kripton is a conceptual programming language design,
-inspired by Kotlin and Python.
-
-Features and Design Principles:
-
-- Imperative, functional, and object-oriented
-- First-class objects for everything
-- Encourages functional style
-- Encourages type extensions
-- Encourages protected scopes
-- Dynamic or static typing
+inspired by Kotlin and Python. It includes imperative,
+functional, and object-oriented coding styles and
+supports both dynamic and static typing
 
 Code Examples
 =============
@@ -31,9 +24,9 @@ Number Guessing Game:
 
 .. code-block:: ruby
 
-    import rand.*
+    import rand.* # import everything from the rand library
 
-    n = (1:100).rand_choice()
+    n = [1:100].rand_choice() # choose a random number between 1 and 100
 
     while True {
         try: guess = input("Enter your guess: ").int()
@@ -72,5 +65,14 @@ Data structures:
         "banana": "yellow",
         "orange": "orange"
     }
-    array_number = arange(1:100:2)
-    equal_array = linspace(1:40, 13)
+    array_number = arange([1:100:2])
+    equal_array = linspace([1:40], 13)
+    
+Documentation:
+
+.. code-block:: kotlin
+
+    /**
+     * This is a docstring. Reference any symbols like [int] or [list::append]
+     */
+     a = 123
