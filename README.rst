@@ -53,7 +53,7 @@ Function definitions, sequences, and functional programming:
 .. code-block:: ruby
 
     prime_sequence = def(max: int) -> sequence<int> {
-        return [2:max].filter { p =>
+        return [2:max].filter { p => 
             not [2:sqrt(n)].any(q => p % q == 0)
         }
     }
@@ -62,14 +62,22 @@ Data Classes:
 
 .. code-block:: ruby
 
-    Rect = dataclass(w, h)
+    Rect = dataclass(w, h) {
+        area = def(self) {
+            return self.w * self.h
+        }
 
-    Rect.area = def(self) {
-        return self.w * self.h
-    }
+        perim = def(self) {
+            return 2 * (self.w + self.h)
+        }
 
-    Rect.perim = def(self) {
-        return 2 * (self.w + self.h)
+        # alternatives
+
+        area: self -> any = def(self) {
+            return self.w * self.h
+        }
+
+        area = self => self.w * self.h
     }
     
 Documentation:
@@ -115,7 +123,7 @@ Connect Four Game
     Players = enum(red=1, yellow=2)
 
     state = object(
-        board = array<T=int>(shape=(7,6), fill=Cell.empty.value),
+        board = array<T>(shape=(7,6), fill=Cell.empty.value),
         player = players.red
     )
 
