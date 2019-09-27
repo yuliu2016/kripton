@@ -16,7 +16,7 @@ Printing stuff:
 
     message = "Hello World"
     print(f"The Message is {message}")
-    print("The Message is " + message)
+    print("The Message is ", message)
     print("The Message is {}".template().format(message))
 
 Loops:
@@ -53,22 +53,22 @@ Function definitions, sequences, and functional programming:
 .. code-block:: ruby
 
     prime_sequence = def(max: int) -> sequence<int> {
-        return [2:max].filter { p ->
-            not [2:sqrt(n)].any: q -> p % q == 0
+        return [2:max].filter { p =>
+            not [2:sqrt(n)].any(q => p % q == 0)
         }
     }
 
-Data Classes (and generic templates):
+Data Classes:
 
 .. code-block:: ruby
 
-    Rect = dataclass<T: number>(w: T, h: T)
+    Rect = dataclass(w, h)
 
-    Rect::area = def(self) {
+    Rect.area = def(self) {
         return self.w * self.h
     }
 
-    Rect::perim = def(self) {
+    Rect.perim = def(self) {
         return 2 * (self.w + self.h)
     }
     
@@ -89,7 +89,7 @@ Number Guessing Game
 
 .. code-block:: ruby
 
-    import rand.* # import everything from the rand library
+    from random import *
 
     n = [1:100].rand_choice() # choose a random number between 1 and 100
 
@@ -111,17 +111,14 @@ Connect Four Game
 
 .. code-block:: ruby
 
-    from io import swap_stdout
-
     Cell = enum(empty=0, red=1, yellow=2)
     Players = enum(red=1, yellow=2)
 
     state = object(
-        board = array<int>(shape=(7,6), fill=Cell.empty.value),
+        board = array<T=int>(shape=(7,6), fill=Cell.empty.value),
         player = players.red
     )
 
-    @swap_stdout
     state.print_board = def() {
         for row in [:board.len] {
             for col in [:row.len] {
@@ -142,4 +139,16 @@ Connect Four Game
             Players.red: Players.yellow
             Players.yellow: Players.red
         }
+    }
+
+    get_move = def() -> int {
+        while True {
+            try: return input("Enter column to play: ").int()
+            except FormatError:
+                print("Invalid Input")
+        }
+    }
+
+    while True {
+        
     }
