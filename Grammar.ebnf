@@ -1,0 +1,20 @@
+
+# Single word statements
+past_stmt: 'pass'
+break_stmt: 'break'
+continue_stmt: 'continue'
+
+# Import Statements
+
+import_as_name: NAME ['as' NAME]
+import_as_names: import_as_name (',' import_as_name)* [',']
+dotted_as_name: dotted_name ['as' NAME]
+dotted_as_names: dotted_as_name (',' dotted_as_name)*
+
+import_name: 'import' dotted_as_names
+import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
+            'import' ('*' | '(' import_as_names ')' | import_as_names))
+import_stmt: import_name | import_from
+
+
+assert_stmt: 'assert' test [',' test]
