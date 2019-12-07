@@ -53,32 +53,54 @@ Function definitions, sequences, and functional programming:
 .. code-block:: ruby
 
     prime_sequence = def(max: int) -> sequence<int> {
-        return [2:max].filter { p => 
-            not [2:sqrt(n)].any(q => p % q == 0)
+        return [2:max].|filter { p => 
+            not [2:sqrt(n)].|any { q => p % q == 0 }
         }
     }
+
+Pipe Call Functions:
+
+.. code-block:: ruby
+
+    sum = def(x) {
+        s = 0
+        for item in x {
+            s += item
+        }
+        return s
+    }
+
+    x = [1,3,5,7].|sum()
+    print(x)
+
+
+Function Parameter Destructuring:
+
+.. code-block:: ruby
+
+    map = def(collection, func) {
+        result = []
+        for item in collection {
+            result.append(func(item))
+        }
+        return results
+    } 
+
+    # All are valid
+    squared = [1:100].|map { v => v * v }
+    squared = [1:100].|map(v => v * v)
+    squared = map([1:100], v => v * v)
+    squared = map([1:100]){ v => v * v }
+
+    print(squared)
 
 Data Classes:
 
 .. code-block:: ruby
 
-    Rect = dataclass(w, h) {
-        area = def(self) {
-            return self.w * self.h
-        }
-
-        perim = def(self) {
-            return 2 * (self.w + self.h)
-        }
-
-        # alternatives
-
-        area: self -> any = def(self) {
-            return self.w * self.h
-        }
-
-        area = self => self.w * self.h
-    }
+    Rect = class(w, h) 
+    Rect.|area = self => self.w * self.h
+    Rect.|perim = self => 2 * (self.w + self.h)
     
 Documentation:
 
@@ -97,12 +119,12 @@ Number Guessing Game
 
 .. code-block:: ruby
 
-    from random import *
+    from random import choose_random
 
-    n = [1:100].rand_choice() # choose a random number between 1 and 100
+    n = [1:100].|choose_random()
 
     while True {
-        try: guess = input("Enter your guess: ").int()
+        try: guess = input("Enter your guess: ").|int()
         except FormatError: continue
 
         when {
@@ -113,50 +135,3 @@ Number Guessing Game
     }
 
     print("Correct!!")
-
-Connect Four Game
------------------
-
-.. code-block:: ruby
-
-    Cell = enum(empty=0, red=1, yellow=2)
-    Players = enum(red=1, yellow=2)
-
-    state = object(
-        board = array<T>(shape=(7,6), fill=Cell.empty.value),
-        player = players.red
-    )
-
-    state.print_board = def() {
-        for row in [:board.len] {
-            for col in [:row.len] {
-                state = Cell(board[row, col])
-                ch = when state {
-                    Cell.empty: "."
-                    Cell.red: "X"
-                    Cell.yellow: "O"
-                }
-                print(ch, end=" ")
-            }
-            print()
-        }
-    }
-
-    state.next_player = def() {
-        player = when player {
-            Players.red: Players.yellow
-            Players.yellow: Players.red
-        }
-    }
-
-    get_move = def() -> int {
-        while True {
-            try: return input("Enter column to play: ").int()
-            except FormatError:
-                print("Invalid Input")
-        }
-    }
-
-    while True {
-        
-    }
