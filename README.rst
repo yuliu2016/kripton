@@ -31,7 +31,7 @@ Loops:
         print(f"The square of {i} is {i * i}")
     }
 
-    f = file("toRead.txt")
+    f = open("toRead.txt")
     while not f.eof() {
         print(f.readline())
     }
@@ -47,14 +47,16 @@ Data structures:
         "banana": "yellow",
         "orange": "orange"
     }
+    set_example = {1, 2, 3}
 
 Function definitions, sequences, and functional programming:
 
 .. code-block:: ruby
 
-    prime_sequence = def(max: int) -> sequence<int> {
-        return [2:max].|filter { p => 
-            not [2:sqrt(n)].|any { q => p % q == 0 }
+    import math
+    prime_sequence = def(max) {
+        return [2:max] | filter { p => 
+            [2:math.sqrt(p)] | all { q => p % q != 0 }
         }
     }
 
@@ -70,7 +72,7 @@ Pipe Call Functions:
         return s
     }
 
-    x = [1,3,5,7].|sum()
+    x = [1,3,5,7] | sum()
     print(x)
 
 
@@ -78,7 +80,7 @@ Function Parameter Destructuring:
 
 .. code-block:: ruby
 
-    map = def(collection, func) {
+    map = def(collection, ^func) {
         result = []
         for item in collection {
             result.append(func(item))
@@ -87,10 +89,10 @@ Function Parameter Destructuring:
     } 
 
     # All are valid
-    squared = [1:100].|map { v => v * v }
-    squared = [1:100].|map(v => v * v)
+    squared = [1:100] | map { v => v * v }
+    squared = [1:100] | map(v => v * v)
+    squared = map([1:100]) { v => v * v }
     squared = map([1:100], v => v * v)
-    squared = map([1:100]){ v => v * v }
 
     print(squared)
 
@@ -98,9 +100,13 @@ Data Classes:
 
 .. code-block:: ruby
 
-    Rect = class(w, h) 
-    Rect.|area = self => self.w * self.h
-    Rect.|perim = self => 2 * (self.w + self.h)
+    Rect = class(w, h) {
+        area = self => self.w * self.h
+        perim = self => 2 * (self.w + self.h)
+    }
+
+    xyz = Rect(1, 2)
+    print(xyz.area())
     
 Documentation:
 
@@ -110,6 +116,30 @@ Documentation:
      * This is a docstring. Reference any symbols like [int] or [list::append]
      */
      a = 123
+
+Operator Precedence:
+
+.. code-block:: python
+
+    # 1. def(){}, x => y
+    # 2. if condition {} else {}
+    # 3. condition ? val-true : val-false
+    # or
+    # and
+    # not x
+    # in, not in, is, is not, <, <=, >, >=, !=, ==
+    # &
+    # | (pipe)
+    # || (bitwise or)
+    # ^^ (bitwise xor)
+    # && (bitwise and)
+    # <<, >>
+    # +, -
+    # *, /, %
+    # +x, -x, ~x
+    # **
+    # x[y], x[y:z], x(y), x.y
+    # (...), [...], {k:v}, {...} 
 
 Full Examples
 =============
@@ -121,17 +151,17 @@ Number Guessing Game
 
     from random import choose_random
 
-    n = [1:100].|choose_random()
+    n = [1:100] | choose_random()
 
     while True {
-        try: guess = input("Enter your guess: ").|int()
+        try: guess = input("Enter your guess: ") | int()
         except FormatError: continue
 
-        when {
-            guess < n: print("Too Small")
-            guess > n: print("Too big")
-            else: break
-        }
+        if guess < n {
+            print("Too Small")
+        } elif guess > n {
+            print("Too Big")
+        } else: break
     }
 
     print("Correct!!")
